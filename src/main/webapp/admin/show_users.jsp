@@ -10,12 +10,16 @@
 <head>
 <meta charset="EUC-KR">
 <title>Insert title here</title>
+<style>
+.title {
+	text-align:center;
+}
+</style>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
-<body>
-	<script>
+<script>
+	$(document).ready(function () {
 		<%
-		String id=request.getParameter("admin-id");
-		String password=request.getParameter("admin-password");
 		Connection conn = null;
 		
 		String db_url = "jdbc:mysql://localhost:3306/campus";
@@ -30,24 +34,36 @@
 		
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
-		String sql;
-		if(id.equals("root") && password.equals("1234")) {		
-			sql = "SELECT * FROM T_SHOPPING_MEMBER";
-			pstmt = conn.prepareStatement(sql);
-			%>
-			console.log("<%=pstmt %>");
-			<%
-			rs = pstmt.executeQuery();
+		String sql = "";
+		String search_opt = request.getParameter("search-opt");
+		String search_text = request.getParameter("search-text");
+		if(search_opt != null || search_text != null) {
+			if(search_opt.split(",")[0].equals(search_opt)) {
+				sql = "SELECT * FROM T_SHOPPING_MEMBER WHERE "+search_opt+" = "+"'"+search_text+"'";
+			}
+			else if(search_opt.split(",")[0].equals("TEL1")) {
+				search_text = search_text.replaceAll("[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]", "");
+				sql = "SELECT * FROM T_SHOPPING_MEMBER WHERE CONCAT("+search_opt.split(",")[0]+","+search_opt.split(",")[1]+","+search_opt.split(",")[2]+")"+" = "+"'"+search_text+"'";
+			}
+			else if(search_opt.split(",")[0].equals("EMAIL1")) {
+				search_text = search_text.replaceAll("[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9.]", "");
+				sql = "SELECT * FROM T_SHOPPING_MEMBER WHERE CONCAT("+search_opt.split(",")[0]+","+search_opt.split(",")[1]+")"+" = "+"'"+search_text+"'";
+			}
+			else if(search_opt.split(",")[0].equals("MEMBER_BIRTH_Y")) {
+				search_text = search_text.replaceAll("[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]", "");
+				sql = "SELECT * FROM T_SHOPPING_MEMBER WHERE CONCAT("+search_opt.split(",")[0]+","+search_opt.split(",")[1]+","+search_opt.split(",")[2]+")"+" = "+"'"+search_text+"'";
+			}
 		}
 		else {
-			%>	
-			alert("로그인 실패");
-			console.log("로그인 실패"); 
-			window.history.back();
-		<%
+			sql = "SELECT * FROM T_SHOPPING_MEMBER";	
 		}
+		pstmt = conn.prepareStatement(sql);
 		%>
-
+		console.log("<%=pstmt %>");
+		<%
+		rs = pstmt.executeQuery();
+		%>
+		
 		function updateMem(member_id, member_pw)
 		{
 			alert("update");	
@@ -65,9 +81,34 @@
 			
 			window.location.replace("./delete.jsp?member_id="+member_id);
 		}
+	});
 	</script>
+<body>
+	<h1 class="title">전체 회원 정보</h1>
+	<form action="#">
+	<span><b>검색</b></span>
+		<select name="search-opt">
+			<option value="MEMBER_ID">아이디</option>
+			<option value="MEMBER_PW">비밀번호</option>
+			<option value="MEMBER_NAME">이름</option>
+			<option value="MEMBER_GENDER">성별</option>
+			<option value="TEL1,TEL2,TEL3">전화번호</option>
+			<option value="SMSSTS_YN">문자 수신 동의 여부</option>
+			<option value="EMAIL1,EMAIL2">이메일</option>
+			<option value="EMAILSTS_YN">이메일 수신 동의 여부</option>
+			<option value="POSTCODE">우편 번호</option>
+			<option value="ROADADDRESS">도로명 주소</option>
+			<option value="JIBUNADDRESS">지번 주소</option>
+			<option value="DETAILADDRESS">상세 주소</option>
+			<option value="MEMBER_BIRTH_Y,MEMBER_BIRTH_M,MEMBER_BIRTH_D">생년월일</option>
+			<option value="MEMBER_BIRTH_GN">양력/음력</option>
+			<option value="JOINDATE">가입 날짜</option>
+		</select>
+		<input type="text" name="search-text">
+		<input type="submit" id="search-btn" value="검색">
+	</form>
+	<br>
 	<table border="1" style="border-collapse: collapse;">
-		<tr><th colspan="17">회원 정보 리스트</th></tr>
 		<tr>
 			<th><span>아이디</span></th>
 			<th><span>비밀번호</span></th>
@@ -101,7 +142,7 @@
 		String ROADADDRESS = rs.getString("ROADADDRESS");
 		String JIBUNADDRESS = rs.getString("JIBUNADDRESS");
 		String DETAILADDRESS = rs.getString("DETAILADDRESS");	
-		String MEMBER_BIRTH_DATE = rs.getString("MEMBER_BIRTH_Y")+"/"+rs.getString("MEMBER_BIRTH_M")+"/"+rs.getString("MEMBER_BIRTH_D");
+		String MEMBER_BIRTH_DATE = rs.getString("MEMBER_BIRTH_Y")+"-"+rs.getString("MEMBER_BIRTH_M")+"-"+rs.getString("MEMBER_BIRTH_D");
 		String MEMBER_BIRTH_GN = rs.getString("MEMBER_BIRTH_GN");
 		String JOINDATE = rs.getString("JOINDATE");
 	%>
@@ -126,9 +167,6 @@
 			</tr>
 	<%
 		}
-		pstmt.close();
-		rs.close();
-		conn.close();
 	%>
 	</table>
 </body>

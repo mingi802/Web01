@@ -95,7 +95,7 @@
 	    	var now_year = parseInt(now.getFullYear().toString().substring(2));
 	    	var bir_year = parseInt(document.loginform.year.value.substring(2));
 	    	var gender = document.loginform.gender.value;
-	    	var rrn_gen_temp = (gender == "male") ? [1,3] : [2,4];
+	    	var rrn_gen_temp = (gender == "male") ? [1,3] : (gender == "female") ? [2,4] : [0,0];
 	    	var rrn_gen = (now_year >= bir_year) ? rrn_gen_temp[1] : rrn_gen_temp[0];
 	    	var rrn_2 = document.loginform.rrn_2;
 	    	console.log(now_year, bir_year, now_year >= bir_year, rrn_gen);
@@ -383,7 +383,7 @@
 			</tr>
 			<tr>
 				<td class="title">주민등록번호</td>
-				<td><input type="text" name="rrn" value="000000" style="width:80px; text-align:right;" readonly> 
+				<td><input type="text" name="rrn" value="230101" style="width:80px; text-align:right;" readonly> 
 				<b>-</b> 
 				<input type="text" name="rrn_2" placeholder="1234567" style="width:80px;" disabled></td>
 			</tr>
