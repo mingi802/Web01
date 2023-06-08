@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="shortcut icon" type="image/x-icon" href="img/favicon_dev_16x16.ico">
+<title>HTML-CSS-JS</title>
+	<link rel="stylesheet" href="css/Style.css">
+	<script src="script/script.js">
+	</script>
+</head>
+
+<body>
+	<div id="page-wrapper">
+		<header><h1>HELLO WORLD!</h1></header>
+		<nav id="main-navigation">
+			<div class="pull-left">
+				<ul class="outer-menu">
+					<li class="outer-menu-item">
+						<span class="menu-title">HTML5</span>
+						<ul class="inner=menu">
+							<li class="inner-menu-item"><a href="#">데이터1</a></li>
+							<li class="inner-menu-item"><a href="#">데이터2</a></li>
+						</ul>
+					</li>
+					<li class="outer-menu-item">
+						<span class="menu-title">CSS3</span>
+						<ul class="inner-menu">
+							<li class="inner-menu-item"><a href="#">데이터1</a></li>
+							<li class="inner-menu-item"><a href="#">데이터2</a></li>
+							<li class="inner-menu-item"><a href="#">데이터3</a></li>
+						</ul>
+					</li>
+					<li class="outer-menu-item">
+						<span class="menu-title">JavaScript</span>
+						<ul class="inner-menu">
+						<li class="inner-menu-item"><a href="#">데이터1</a></li>
+						<li class="inner-menu-item"><a href="#">데이터2</a></li>
+						<li class="inner-menu-item"><a href="#">데이터3</a></li>
+						<li class="inner-menu-item"><a href="#">데이터4</a></li>
+						<li class="inner-menu-item"><a href="#">데이터5</a></li>
+						<li class="inner-menu-item"><a href="#">데이터6</a></li>
+						<li class="inner-menu-item"><a href="#">데이터7</a></li>
+						<li class="inner-menu-item"><a href="#">데이터8</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<div class= "pull-center">
+				<a href="introduce_myself.html">나를 소개합니다</a>
+			</div>
+			<div class="pull-right">
+				<div class="search-bar">
+					<form action="#" method="get">
+						<input type="text" class="input-search">
+						<input type="submit" class="input-search-submit" value="검색">
+					</form>
+				</div>
+			</div>
+		</nav>	
+		<div id = "content">
+			<section id="main-section">
+				<article>
+					<div class="article-header">
+						<h1 class="article-title">HTML5 개요와 활용</h1>
+						<p class="article-date">2019년 02월 14일</p>
+					</div>
+					<div class="article-body">
+						<img src="http://placehold.it/430x280">
+						<br>
+						<br>
+						<p>Lorem ipsum dolor sit amet.</p>
+						<br>
+						<p>Proin ut fringilla sapien..</p>
+					</div>
+				</article>
+				<article>
+					<div class="article-header">
+						<h1 class="article-title">HTML5 응용과 실습</h1>
+						<p class="article-date">2019년 02월 17일</p>
+					</div>
+					<div class="article-body">
+						<img src="http://placehold.it/430x280">
+						<br>
+						<p>Lorem ipsum dolor sit amet.</p>
+						<br>
+						<p>Proin ut fringilla sapien.</p>
+					</div>
+				</article>
+				<article>
+					<table border="1">
+						<thead>
+							<tr>		
+								<th></th>
+								<th>월</th>
+								<th>화</th>
+								<th>수</th>
+								<th>목</th>
+								<th>금</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>1교시</td>
+								<td>영어</td>
+								<td>국어</td>
+								<td>과학</td>
+								<td>미술</td>
+								<td>기술</td>
+							</tr>
+							<tr>
+								<td>2교시</td>
+								<td>도덕</td>
+								<td>체육</td>
+								<td>영어</td>
+								<td>수학</td>
+								<td>사회</td>
+							</tr>
+						</tbody>
+					</table>
+				</article>
+				<article>
+					<form method="get">
+						<fieldset>
+							<legend><b><i>입력 양식 태그 연습</i></b></legend>
+								<table border="1">
+									<tr>
+										<td rowspan="2">
+											<input type="email" name="user_mail" placeholder="input email"><br/>
+											<input type="text" name="user_id" placeholder="input id"><br/>
+											<input type="password" name="user_passwd" placeholder="input password"><br/>
+										</td>
+										<td>	
+											<input type="submit" value="가입"><br/>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<input type="reset" value="초기화">
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<input id="male" type="radio" name="gender" value="남성">
+											<label for="male">남성</label>
+											<input id="female" type="radio" name="gender" value="여성">
+											<label for="female">여성</label>
+										</td>
+										<td>성별</td>
+									</tr>
+									<tr> 
+										<td colspan="2">
+											<input id="HTML5" type="radio" name= "web" value="HTML5" checked="checked">
+											<label for="HTML5">HTML5</label>
+											<input id="CSS" type="radio" name= "web" value="CSS">
+											<label for="CSS">CSS</label>
+											<input id="JavaScript" type="radio" name= "web" value="JavaScript">
+											<label for="JavaScript">JavaScript</label>
+										</td>
+									</tr>
+									<tr>
+										<th colspan="2">
+											웹 프로그래밍 입문
+										</th>
+									</tr>
+									<tr>
+										<td colspan="2">
+											<textarea id="text" name= "text" placeholder="Web Programming"></textarea>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2">
+											<input id = "ch1" type="checkbox" name="checkbox" value="JAVA">
+											<label for= "ch1">JAVA</label> 
+											<input id = "ch2" type="checkbox" name="checkbox" value="C">
+											<label for= "ch2">C</label> 
+											<input id = "ch3" type="checkbox" name="checkbox" value="PYTHON">
+											<label for= "ch3">PYTHON</label> 
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<select>
+												<optgroup label="Primitive type">
+													<option selected disabled>Primitive type</option>
+													<option>BYTE</option>
+													<option>SHORT</option>
+													<option>INT</option>
+													<option>LONG</option>
+													<option>FLOAT</option>
+													<option>DOUBLE</option>
+													<option>BOOLEAN</option>
+													<option>CHAR</option>	
+												</optgroup>
+											</select>
+										</td>
+										<td>
+											<select>
+												<optgroup label="Reference type">
+													<option selected disabled>Reference type</option>
+													<option>STRING</option>
+													<option>ARRAY</option>
+													<option>CLASS</option>
+													<option>INTERFACE</option>
+													<option>ENUM</option>
+													<option>COLLECTION</option>
+												</optgroup>
+											</select>
+										</td>
+									</tr>
+								</table>
+							<input type="image" src="img/test.jpg" alt="submit button" title="submit button"></input>
+						</fieldset>
+					<input type="hidden" name="secret" value="secret"></input>
+					<input type="button" onclick="alert('Hello World!')" value="Hello World"></input>
+					<input type="file" name="file"></input>
+				</form>
+			</article>
+			<article>
+				<div style='background-color: red'>1</div>
+				<div style='background-color: orange'>1</div>
+				<div style='background-color: yellow'>1</div> 
+				<div style='background-color: green'>1</div>
+				<div style='background-color: blue'>1</div>
+				<div style='background-color: indigo'>1</div>
+				<div style='background-color: purple'>1</div>
+			</article>
+			<article>
+				<ul>
+					<li><b>ul</b>은</li>
+					<li><b>unordered list</b>로</li>
+					<li>목록의</li>
+					<li>순서가</li>
+					<li>없어요</li>
+				</ul>
+				<ol>
+					<li><b>ol</b>은</li>
+					<li><b>ordered list</b>로</li>
+					<li>목록의</li>
+					<li>순서가</li>
+					<li>있어요</li>
+				</ol>
+				<ul>
+					<li>
+						<b>둘다 li(list item)태그로 목록 요소를 생성해요</b>
+						<ol>
+							<li>순서 없는 목록</li>
+							<li>속</li>
+							<li>순서 있는 목록</li>
+						</ol>
+					</li>
+				</ul>
+			</article>	
+			<article>
+				
+			</article>		
+			</section>
+		</div>
+		<aside id="main-aside">
+			<div class="aside-list">
+				<h3>카테고리</h3>
+				<ul>
+					<li><a href="#">데이터1</a>
+					<li><a href="#">데이터2</a>
+					<li><a href="#">데이터3</a>
+					<li><a href="#">데이터4</a>
+					<li><a href="#">데이터5</a>
+				</ul>
+			</div>
+			<div class="aside-list">
+				<h3>최근 글</h3>
+				<ul>
+					<li><a href="#">데이터1</a>
+					<li><a href="#">데이터2</a>
+					<li><a href="#">데이터3</a>
+					<li><a href="#">데이터4</a>
+				</ul>
+			</div>
+		</aside>
+		<footer id="main-footer">
+		<a href="#">ITCookBook HTML5 Programming</a>
+		<a href="https://cafe.naver.com/dowhatevers">강사님 카페</a>
+		<address>서울특별시</address>
+	</footer>
+	</div>
+</body>
+</html>

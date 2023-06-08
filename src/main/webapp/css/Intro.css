@@ -1,0 +1,143 @@
+@charset "UTF-8";
+header {
+	background-color: black;
+	color: white;
+	text-align: center;
+}
+
+body {
+	background-color: white;
+}
+
+table {
+	width: 100%; background-color: white; border-collapse: collapse; 
+}
+
+tr {
+	table-layout:fixed;
+	height: 22px; width: 100%;
+}
+
+.guestbooktable {
+	float: right;
+	width:180px;
+	height:540px;
+	overflow-y:scroll;
+}
+
+	input{
+		width: 80px;
+	}
+
+
+.date {
+	float:left;
+	font-size: 10px;
+	color:gray;
+	text-align:right;
+}
+
+#page-wrapper {
+	background-color: lightyellow;
+	width: 1400px;
+	height: 900px;
+	margin: 0px auto;
+}
+
+section {
+	width: 1200px;
+	float: left;
+}
+
+aside {
+	text-align: center;
+	height: 740px;
+	width: 200px;
+	background-color: skyblue;
+	margin-top: 19px;
+	margin-bottom: auto;
+	float: right;
+}
+
+nav {
+	background-color: lightblue;
+	font-weight: bold;
+}
+
+.foot {
+	text-align:right;
+}
+
+span.head {
+	color: white;
+}
+div.head {
+	text-align:center;
+}
+
+.d-img {
+	height:300px;
+	width: auto;
+	display: flex;
+	flex-flow: row wrap;
+	margin-bottom: 100px;
+	margin-left: 50px;
+	margin-right: 50px;
+}
+.art {
+	background-color: Springgreen;
+}
+
+.test1 {
+	display: table;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: scorll;
+  padding-bottom: 20px;
+}
+
+fieldset {
+	background-color: white;
+	margin: 0px auto;
+}
+
+.test2 {
+	display: table;
+	overflow: scorll;
+	margin-left:auto;
+	margin-right:auto;
+	padding-bottom: 20px;
+}
+
+.left-image {
+	float: left;
+	height: 300px;
+	width: auto;
+	margin-right: 10px;
+}
+
+.right-image {
+	float: right;
+	height: 300px;
+	width: auto;
+	margin-left: 10px;
+}
+
+.ol-left {
+	background-color: white;
+	list-style: none;
+	float: left;
+	border: 3px solid purple;
+	border-radius: 10px 10px 10px 10px;
+	margin-right: 20px;
+}
+
+.ul-left {
+	background-color: white;
+	float: left;
+	margin-right: 40px;
+}
+
+h3 {
+	text-align: center;
+}

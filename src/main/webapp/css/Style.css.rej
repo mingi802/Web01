@@ -1,0 +1,25 @@
+diff a/src/main/webapp/css/Style.css b/src/main/webapp/css/Style.css	(rejected hunks)
+@@ -0,0 +1,22 @@
++@charset "UTF-8";
++h1 {
++	color: white;
++	background: black;
++}
++body {
++	background-color: Springgreen;
++}
++table {
++	text-align: center;
++}
++thead {
++	color: white;
++	background-color: black;
++}
++tbody {
++	color: yellow;
++	background-color: gray;
++}
++fieldset {
++	background-color: white;
++}
+\ No newline at end of file

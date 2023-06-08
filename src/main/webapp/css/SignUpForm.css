@@ -1,0 +1,20 @@
+@charset "utf-8";
+
+.form-table {
+	border-top: 3px solid;
+	border-collapse: collapse;
+	border-bottom: 1px solid;
+}
+
+th, td {
+    border-bottom: 1px dotted;
+  }
+  
+.title {
+	color: blue;
+	background-color: skyblue;
+}
+.alter-title {
+	color: red;
+	background-color: #ffc9ce;
+}
