@@ -11,6 +11,11 @@
 <meta charset="EUC-KR">
 <title>Insert title here</title>
 <style>
+.searchDiv {
+	float:right;
+	clear:right;
+}
+
 .title {
 	text-align:center;
 }
@@ -30,8 +35,14 @@ table {
 word-break: keep-all;
 }
 
-.searchmem {
+#searchmem {
 	float:right;
+	clear:right;
+}
+
+#first-search-bar {
+	float:right;
+	clear:right;
 }
 </style>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -53,32 +64,60 @@ word-break: keep-all;
 		
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
-		String sql = "";
-		String search_opt = request.getParameter("search-opt");
-		String search_text = request.getParameter("search-text");
-		if((search_opt != null || search_text != null) && !search_text.equals("")) {
-			if(search_opt.split(",")[0].equals(search_opt)) {
-				sql = "SELECT * FROM T_SHOPPING_MEMBER WHERE "+search_opt+" = "+"'"+search_text+"'";
+		String sql = (request.getParameter("sql") == null) ? "SELECT * FROM T_SHOPPING_MEMBER WHERE " : request.getParameter("sql");
+		
+		if((request.getParameter("admin-id") != null && request.getParameter("admin-password") != null) && (request.getParameter("admin-id").equals("root") && request.getParameter("admin-password").equals("1234"))) {
+			sql = "SELECT * FROM T_SHOPPING_MEMBER";
+		}
+		
+		int len = (request.getParameter("count") == null) ? 0 : Integer.parseInt(request.getParameter("count"));
+		String[] search_opt = new String[len]; 
+		String[] search_text = new String[len];
+		String[] and_or = new String[len];
+		
+		for(int i = 0; i < search_text.length; i++) {
+			if(request.getParameter("search-text"+i) != null) {
+				search_opt[i] = request.getParameter("search-opt"+i);
+				search_text[i] = request.getParameter("search-text"+i);
 			}
-			else if(search_opt.split(",")[0].equals("TEL1")) {
-				search_text = search_text.replaceAll("[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]", "");
-				sql = "SELECT * FROM T_SHOPPING_MEMBER WHERE CONCAT("+search_opt.split(",")[0]+","+search_opt.split(",")[1]+","+search_opt.split(",")[2]+")"+" = "+"'"+search_text+"'";
+			if(i > 0) {
+				and_or[i] = request.getParameter("and-or"+i);
 			}
-			else if(search_opt.split(",")[0].equals("EMAIL1")) {
-				search_text = search_text.replaceAll("[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9.]", "");
-				sql = "SELECT * FROM T_SHOPPING_MEMBER WHERE CONCAT("+search_opt.split(",")[0]+","+search_opt.split(",")[1]+")"+" = "+"'"+search_text+"'";
+			%>console.log("<%=search_opt[i]+" "+search_text[i]+" "+and_or[i]%>");<%
+		}
+		
+		
+		for(int i = 0; i < search_text.length; i++) {
+			if((search_opt[i] != null || search_text[i] != null)) {
+				if(i > 0) {
+					sql += and_or[i]+" ";
+				}
+				if(search_opt[i].split(",")[0].equals(search_opt[i])) {
+					sql += search_opt[i]+" = "+"'"+search_text[i]+"' ";
+				}
+				else if(search_opt[i].split(",")[0].equals("TEL1")) {
+					search_text[i] = search_text[i].replaceAll("[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]", "");
+					sql += "CONCAT("+search_opt[i].split(",")[0]+","+search_opt[i].split(",")[1]+","+search_opt[i].split(",")[2]+")"+" = "+"'"+search_text[i]+"'";
+				}
+				else if(search_opt[i].split(",")[0].equals("EMAIL1")) {
+					search_text[i] = search_text[i].replaceAll("[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9.]", "");
+					sql += "CONCAT("+search_opt[i].split(",")[0]+","+search_opt[i].split(",")[1]+")"+" = "+"'"+search_text[i]+"'";
+				}
+				else if(search_opt[i].split(",")[0].equals("MEMBER_BIRTH_Y")) {
+					search_text[i] = search_text[i].replaceAll("[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]", "");
+					sql += "CONCAT("+search_opt[i].split(",")[0]+","+search_opt[i].split(",")[1]+","+search_opt[i].split(",")[2]+")"+" = "+"'"+search_text[i]+"'";
+				}
+				else {
+				}
 			}
-			else if(search_opt.split(",")[0].equals("MEMBER_BIRTH_Y")) {
-				search_text = search_text.replaceAll("[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]", "");
-				sql = "SELECT * FROM T_SHOPPING_MEMBER WHERE CONCAT("+search_opt.split(",")[0]+","+search_opt.split(",")[1]+","+search_opt.split(",")[2]+")"+" = "+"'"+search_text+"'";
+			else {
+				break;
 			}
 		}
-		else {
-			sql = "SELECT * FROM T_SHOPPING_MEMBER";	
-		}
+		
 		pstmt = conn.prepareStatement(sql);
 		%>
-		console.log("<%=pstmt %>");
+		console.log("<%=sql %>");
 		<%
 		rs = pstmt.executeQuery();
 		%>
@@ -100,7 +139,104 @@ word-break: keep-all;
 			
 			window.location.replace("./delete.jsp?member_id="+member_id);
 		}
+		
+		var count = 0;
+		$('#show-all').click(function() {
+			alert("show all of user");
+			window.location.href="./show_users.jsp?sql=SELECT * FROM T_SHOPPING_MEMBER";
+		});
+		
+		$('#tag-add').click(function() {
+				count++;
+				let countStr = count.toString().padStart(2, "0");
+				
+				var obj = document.getElementById("search-form");
+				var hidden_count = document.getElementById("count");
+				var searchDiv = document.createElement("div");
+				var newTag = document.createElement("select");
+				var tagNum = document.createElement("span");
+				var tags = document.getElementsByName("search-opt0");
+				var and = document.createElement('input');
+				var andlabel = document.createElement('label');
+				var andlabeltext = document.createTextNode('AND');
+				var or = document.createElement('input');
+				var orlabel = document.createElement('label');
+				var orlabeltext = document.createTextNode('OR');
+				var oneSpace = document.createElement("span");
+				var oneSpace2 = document.createElement("span");
+				var text = document.createElement('input');
+				var delTag = document.createElement('input');
+/*--------------------------------------------------------------------------*/				
+				searchDiv.setAttribute("class", "searchDiv"); 
+				searchDiv.setAttribute("id", "searchDiv"+count); 
+				
+				newTag.setAttribute("id", "search-opt"+count);
+				newTag.setAttribute("name", "search-opt"+count);
+/*--------------------------------------------------------------------------*/				
+				and.type = 'radio';
+				and.name = 'and-or'+count;
+				and.id = 'and'+count;
+				and.value = 'and';
+				and.checked = true;
+				andlabel.htmlFor = 'and'+count;
+				andlabel.appendChild(andlabeltext);
+				
+			    or.type = 'radio';
+			    or.name = 'and-or'+count;
+			    or.id = 'or'+count;
+			    or.value = 'or';			
+				orlabel.htmlFor = 'or'+count;							 
+			    orlabel.appendChild(orlabeltext);
+			    
+			    text.type = 'text';
+				text.name = 'search-text'+count;
+				text.id = 'search-text'+count;
+				
+				delTag.type = 'button';
+				delTag.id = 'delete-tag';
+				delTag.value = '조건 삭제';
+				
+/*--------------------------------------------------------------------------*/
+				tagNum.innerHTML = "<br><b>+ 조건 "+countStr+"</b>&nbsp;"
+				oneSpace.innerHTML = "&nbsp;"
+				oneSpace2.innerHTML = "&nbsp;"
+/*--------------------------------------------------------------------------*/				
+				
+				//newDiv.style.backgroundColor = "yellow";
+				
+				for(var i = 0; i < tags[0].length; i++){
+					let opt = document.createElement("option");
+		    		opt.value = tags[0].options[i].value;
+		    		opt.text = tags[0].options[i].text;
+		    		newTag.appendChild(opt);
+				}
+				
+				obj.appendChild(searchDiv);				
+				searchDiv.appendChild(tagNum);
+				searchDiv.appendChild(and);
+				searchDiv.appendChild(andlabel);
+				searchDiv.appendChild(or);
+				searchDiv.appendChild(orlabel);
+				searchDiv.appendChild(oneSpace);
+				searchDiv.appendChild(newTag);
+				searchDiv.appendChild(oneSpace2);
+				searchDiv.appendChild(text);
+				searchDiv.appendChild(delTag);
+				
+				delTag.onclick = function() {
+					p = this.parentElement;
+					p.remove();
+				}
+				// 익명 함수 : 바로 그 이벤트를 실행하기위해 이름을 정하지 않고 바로실행
+		//		newDiv.onclick = function(){
+		//		p = this.parentElement; //부모 HTML 태그요소
+		//		p.removeChild(this); // 자신을 부모 태그로 부터 제거
+		//		}
+				
+				hidden_count.value = count;
+		});
 	});
+	
 	</script>
 <body>
 	<div class="page">
@@ -109,10 +245,11 @@ word-break: keep-all;
 		</header>
 		<section>
 			<article>
-				<div class="searchmem">
-					<form action="#">
-						<span><b>검색</b></span>
-						<select name="search-opt">
+				<div id="searchmem">
+					<form id="search-form" action="#">
+						<div id="first-search-bar">
+						<span><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;검색</b></span>
+						<select name="search-opt0">
 							<option value="MEMBER_ID">아이디</option>
 							<option value="MEMBER_PW">비밀번호</option>
 							<option value="MEMBER_NAME">이름</option>
@@ -129,8 +266,12 @@ word-break: keep-all;
 							<option value="MEMBER_BIRTH_GN">양력/음력</option>
 							<option value="JOINDATE">가입 날짜</option>
 						</select>
-						<input type="text" name="search-text" placeholder="빈칸으로 검색 시 전체 출력">
+						<input type="text" name="search-text0">
 						<input type="submit" id="search-btn" value="검색">
+						<input type="button" id="tag-add" value="조건 추가">
+						<input type="button" id="show-all" value="전체 출력">
+						<input type="hidden" name="count" id="count">
+						</div>
 					</form>
 				</div>
 			</article>
