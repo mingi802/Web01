@@ -32,7 +32,7 @@ if(conn!=null) {
 
 ResultSet rs = null;
 PreparedStatement pstmt = null;
-String sql = "SELECT * FROM T_SHOPPING_MEMBER WHERE MEMBER_ID = ? AND MEMBER_PW = ?";
+String sql = "SELECT * FROM T_SHOPPING_MEMBER ts left join t_dept td on ts.deptno = td.deptno WHERE MEMBER_ID = ? AND MEMBER_PW = ?";
 pstmt = conn.prepareStatement(sql);
 pstmt.setString(1, id);
 pstmt.setString(2, password);
@@ -60,6 +60,7 @@ String MEMBER_BIRTH_M = "";
 String MEMBER_BIRTH_D = "";
 String MEMBER_BIRTH_GN = "";
 String RRN_BACK = "";
+String DEPTNO = "";
 if(rs.next()) {
 	MEMBER_ID = rs.getString("MEMBER_ID");
 	MEMBER_PW = rs.getString("MEMBER_PW");
@@ -81,6 +82,7 @@ if(rs.next()) {
 	MEMBER_BIRTH_D = rs.getString("MEMBER_BIRTH_D");
 	MEMBER_BIRTH_GN = rs.getString("MEMBER_BIRTH_GN");
 	RRN_BACK = rs.getString("RRN_BACK");
+	DEPTNO = rs.getString("DEPTNO");
 	%>
 	$(document).ready(function() {
 		setDateSelectBox();
@@ -115,6 +117,14 @@ if(rs.next()) {
 	else {
 		$("#female").prop("checked", true);
 	}
+	
+	$("#deptno").on("change", function(){
+	    //selected value
+	    $("#selected-deptno").val($("option:selected", this).text());
+	});
+	
+	$('#deptno').val("<%=DEPTNO%>").prop("selected", true);
+	$("#selected-deptno").val($("#deptno option:selected").text());
 	
 	$('#year').val("<%=MEMBER_BIRTH_Y%>").prop("selected", true);
 	console.log(birth_y);
@@ -419,6 +429,19 @@ function setMail(mail3) {
 					<input id = "emailsts" type="checkbox" name="emailsts" value="Y">
 					<input id = "hidden-emailsts" type="hidden" name="emailsts" value="N">
 					<label for= "emailsts"><span>쇼핑몰에서 발송하는 e-mail을 수신합니다.</span></label> 
+					</td>
+			</tr>
+			<tr>
+				<td class="alter-title">부서</td>
+				<td>
+					<select name="deptno" id="deptno">
+						<option value="10">ACCOUNTING</option>
+						<option value="20">RESEARCH</option>
+						<option value="30">SALES</option>
+						<option value="40">OPERATIONS</option>
+					</select>
+					선택 부서:
+					<input type="text" name="dname" id="selected-deptno" readonly>
 					</td>
 			</tr>
 			<tr>

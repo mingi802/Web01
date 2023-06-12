@@ -45,6 +45,10 @@
 		       }
 		    });
 	    });
+	    $("#deptno").on("change", function(){
+		    //selected value
+		    $("#selected-deptno").val($("option:selected", this).text());
+		});
 	});
 	function alterID() {
 		 $('#idOverlap').prop("disabled", false);
@@ -110,6 +114,7 @@
 	    var name = document.loginform.name.value;
 	    var phone_number = document.loginform.phone1.value +"-"+ document.loginform.phone2.value +"-"+ document.loginform.phone3.value;
 	   	var email = document.loginform.mail1.value +"@"+ document.loginform.mail2.value; 
+	    var deptno = document.loginform.deptno.value;
 	   	var gender = document.loginform.gender.value;
 	   	var rrn_gen = (gender == "male") ? [1,3] : [2,4];
 	   	var birth_date = document.loginform.year.value+"년 "+document.loginform.month.value+"월 "+document.loginform.day.value+"일";
@@ -187,6 +192,15 @@
 			return false;
 		}		    
 			
+		if(deptno != "0") {
+			console.log("부서 형식 통과");
+		} else {
+			alert("부서 선택 필수");
+			document.loginform.deptno.focus();
+			return false;
+		}
+		
+		
 		if(rrn.length == 14 && rrn_gen.includes(parseInt(rrn.charAt(7)))) {
 			console.log("선택한 성별과 주민등록번호에 기재된 성별이 동일함");
 		} else {
@@ -355,6 +369,20 @@
 					<input id = "emailsts" type="checkbox" name="emailsts" value="Y">
 					<input id = "hidden-emailsts" type="hidden" name="emailsts" value="N">
 					<label for= "emailsts"><span>쇼핑몰에서 발송하는 e-mail을 수신합니다.</span></label> 
+					</td>
+			</tr>
+			<tr>
+				<td class="title">부서</td>
+				<td>
+					<select name="deptno" id="deptno">
+						<option value="0" selected disabled>부서 선택</option>
+						<option value="10">ACCOUNTING</option>
+						<option value="20">RESEARCH</option>
+						<option value="30">SALES</option>
+						<option value="40">OPERATIONS</option>
+					</select>
+					선택 부서:
+					<input type="text" name="dname" id="selected-deptno" readonly>
 					</td>
 			</tr>
 			<tr>

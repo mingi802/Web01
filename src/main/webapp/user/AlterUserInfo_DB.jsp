@@ -22,6 +22,7 @@ $(document).ready(function(){
 	String phone3 =request.getParameter("phone3");
 	String mail1 = request.getParameter("mail1");
 	String mail2 = request.getParameter("mail2");
+	int deptno = Integer.parseInt(request.getParameter("deptno"));
 	String gender = request.getParameter("gender");
 	String year = request.getParameter("year");
 	String month = request.getParameter("month");
@@ -38,7 +39,7 @@ $(document).ready(function(){
 	%>
 	console.log("<%=before_id%>", "<%=before_password%>");
 	 $('#updateUser').click(function(){
-		 delUser();
+		 UpdateUser();
 	 });
 	 $('#id, #password').keyup( function(){
 		 var id = $( '#id' ).val();
@@ -51,7 +52,7 @@ $(document).ready(function(){
 	 });
 });
 
-function delUser() {
+function UpdateUser() {
 	<%
 	Connection conn = null;
 
@@ -66,7 +67,7 @@ function delUser() {
 	}
 
 	PreparedStatement pstmt = null;
-	String sql = "UPDATE T_SHOPPING_MEMBER SET MEMBER_ID = ?, MEMBER_PW = ?, MEMBER_NAME = ?, MEMBER_GENDER = ?, TEL1 = ?, TEL2 = ?, TEL3 = ?, SMSSTS_YN = ?, EMAIL1 = ?, EMAIL2 = ?, EMAILSTS_YN = ?, POSTCODE = ?, ROADADDRESS = ?, JIBUNADDRESS = ?, DETAILADDRESS = ?, MEMBER_BIRTH_Y = ?, MEMBER_BIRTH_M = ?, MEMBER_BIRTH_D = ?, MEMBER_BIRTH_GN = ?, RRN_FRONT = ?, RRN_BACK = ? WHERE MEMBER_ID = ? AND MEMBER_PW = ?";
+	String sql = "UPDATE T_SHOPPING_MEMBER SET MEMBER_ID = ?, MEMBER_PW = ?, MEMBER_NAME = ?, MEMBER_GENDER = ?, TEL1 = ?, TEL2 = ?, TEL3 = ?, SMSSTS_YN = ?, EMAIL1 = ?, EMAIL2 = ?, EMAILSTS_YN = ?, DEPTNO = ?, POSTCODE = ?, ROADADDRESS = ?, JIBUNADDRESS = ?, DETAILADDRESS = ?, MEMBER_BIRTH_Y = ?, MEMBER_BIRTH_M = ?, MEMBER_BIRTH_D = ?, MEMBER_BIRTH_GN = ?, RRN_FRONT = ?, RRN_BACK = ? WHERE MEMBER_ID = ? AND MEMBER_PW = ?";
 	pstmt = conn.prepareStatement(sql);
 	pstmt.setString(1, id);
 	pstmt.setString(2, password);
@@ -79,18 +80,19 @@ function delUser() {
 	pstmt.setString(9, mail1);
 	pstmt.setString(10, mail2);
 	pstmt.setString(11, emailsts);
-	pstmt.setString(12, postcode);
-	pstmt.setString(13, roadAddr);
-	pstmt.setString(14, jibunAddr);
-	pstmt.setString(15, detailAddr);
-	pstmt.setString(16, year);
-	pstmt.setString(17, month);
-	pstmt.setString(18, day);
-	pstmt.setString(19, calendar);
-	pstmt.setString(20, rrn);
-	pstmt.setString(21, rrn_2);
-	pstmt.setString(22, before_id);
-	pstmt.setString(23, before_password);	
+	pstmt.setInt(12, deptno);
+	pstmt.setString(13, postcode);
+	pstmt.setString(14, roadAddr);
+	pstmt.setString(15, jibunAddr);
+	pstmt.setString(16, detailAddr);
+	pstmt.setString(17, year);
+	pstmt.setString(18, month);
+	pstmt.setString(19, day);
+	pstmt.setString(20, calendar);
+	pstmt.setString(21, rrn);
+	pstmt.setString(22, rrn_2);
+	pstmt.setString(23, before_id);
+	pstmt.setString(24, before_password);	
 
 	%>
 	console.log("<%=pstmt %>");

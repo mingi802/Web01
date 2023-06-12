@@ -64,13 +64,19 @@ word-break: keep-all;
 		
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
-		String sql = (request.getParameter("sql") == null) ? "SELECT * FROM T_SHOPPING_MEMBER WHERE " : request.getParameter("sql");
-		
-		if((request.getParameter("admin-id") != null && request.getParameter("admin-password") != null) && (request.getParameter("admin-id").equals("root") && request.getParameter("admin-password").equals("1234"))) {
-			sql = "SELECT * FROM T_SHOPPING_MEMBER";
+		String sql = (request.getParameter("sql") == null) ? "SELECT * FROM T_SHOPPING_MEMBER ts left join t_dept td on ts.deptno = td.deptno WHERE " : request.getParameter("sql");
+		String admin_id="";
+		String admin_pw="";
+		if(request.getParameter("admin-id")!=null && request.getParameter("admin-password")!=null) {
+			admin_id = request.getParameter("admin-id");
+			admin_pw = request.getParameter("admin-password");
 		}
 		
-		int len = (request.getParameter("count") == null) ? 0 : Integer.parseInt(request.getParameter("count"));
+		if(admin_id.equals("root") && admin_pw.equals("1234")) {
+			sql = "SELECT * FROM T_SHOPPING_MEMBER ts left join t_dept td on ts.deptno = td.deptno";
+		}
+		
+		int len = (request.getParameter("count") == null || request.getParameter("count").equals("")) ? 1 : Integer.parseInt(request.getParameter("count"));
 		String[] search_opt = new String[len]; 
 		String[] search_text = new String[len];
 		String[] and_or = new String[len];
@@ -143,7 +149,7 @@ word-break: keep-all;
 		var count = 0;
 		$('#show-all').click(function() {
 			alert("show all of user");
-			window.location.href="./show_users.jsp?sql=SELECT * FROM T_SHOPPING_MEMBER";
+			window.location.href="./show_users.jsp?sql=SELECT * FROM T_SHOPPING_MEMBER ts left join t_dept td on ts.deptno = td.deptno";
 		});
 		
 		$('#tag-add').click(function() {
@@ -265,6 +271,7 @@ word-break: keep-all;
 							<option value="MEMBER_BIRTH_Y,MEMBER_BIRTH_M,MEMBER_BIRTH_D">생년월일</option>
 							<option value="MEMBER_BIRTH_GN">양력/음력</option>
 							<option value="JOINDATE">가입 날짜</option>
+							<option value="DNAME">부서</option>
 						</select>
 						<input type="text" name="search-text0">
 						<input type="submit" id="search-btn" value="검색">
@@ -294,6 +301,7 @@ word-break: keep-all;
 							<th><span>생년월일</span></th>
 							<th><span>양력/음력</span></th>
 							<th><span>가입 날짜</span></th>
+							<th><span>부서</span></th>
 							<th><span>정보 갱신</span></th>
 							<th><span>정보 삭제</span></th>
 						</tr>
@@ -314,6 +322,7 @@ word-break: keep-all;
 						String MEMBER_BIRTH_DATE = rs.getString("MEMBER_BIRTH_Y")+"-"+rs.getString("MEMBER_BIRTH_M")+"-"+rs.getString("MEMBER_BIRTH_D");
 						String MEMBER_BIRTH_GN = rs.getString("MEMBER_BIRTH_GN");
 						String JOINDATE = rs.getString("JOINDATE");
+						String DNAME = rs.getString("DNAME");
 					%>
 						<tr style="text-align:center;">
 							<td><span><%=MEMBER_ID%></span></td>
@@ -331,6 +340,7 @@ word-break: keep-all;
 							<td><span><%=MEMBER_BIRTH_DATE%></span></td>
 							<td><span><%=MEMBER_BIRTH_GN%></span></td>
 							<td><span><%=JOINDATE%></span></td>
+							<td><span><%=DNAME%></span></td>
 							<td><input type=button value=Update onClick='updateMem("<%=MEMBER_ID%>", "<%=MEMBER_PW%>");'></td>
 							<td><input type=button value=Delete onClick='deleteMem("<%=MEMBER_ID%>");'></td>
 							</tr>

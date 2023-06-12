@@ -18,6 +18,8 @@ String password=request.getParameter("password");//will return the value 'text'
 String name = request.getParameter("name");
 String phone_number = request.getParameter("phone1")+"-"+request.getParameter("phone2")+"-"+request.getParameter("phone3");
 String email = request.getParameter("mail1")+"@"+request.getParameter("mail2");
+int deptno = Integer.parseInt(request.getParameter("deptno"));
+String dname = request.getParameter("dname");
 String gender = request.getParameter("gender");
 String birth_date = request.getParameter("year")+"/"+request.getParameter("month")+"/"+request.getParameter("day");
 String calendar = request.getParameter("calendar");
@@ -35,6 +37,7 @@ String emailsts = request.getParameter("emailsts");
 <p>Your Name: <%=name %></p>
 <p>Your Phone_Number: <%=phone_number %></p>
 <p>Your Email: <%=email %></p>
+<p>Your Department: <%=dname %></p>
 <p>Your Gender: <%=gender %></p>
 <p>Your Birth_Date : <%=birth_date %> (<%=calendar %>)</p>
 <p>Your Resident Registration Number: <%=rrn %></p>
@@ -72,7 +75,7 @@ String emailsts = request.getParameter("emailsts");
 		}
 		
 		PreparedStatement pstmt = null;
-		String sql = "INSERT INTO T_SHOPPING_MEMBER (MEMBER_ID, MEMBER_PW, MEMBER_NAME, MEMBER_GENDER, TEL1, TEL2, TEL3, SMSSTS_YN, EMAIL1, EMAIL2, EMAILSTS_YN, POSTCODE, ROADADDRESS, JIBUNADDRESS, DETAILADDRESS, MEMBER_BIRTH_Y, MEMBER_BIRTH_M, MEMBER_BIRTH_D, MEMBER_BIRTH_GN, RRN_FRONT, RRN_BACK) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO T_SHOPPING_MEMBER (MEMBER_ID, MEMBER_PW, MEMBER_NAME, MEMBER_GENDER, TEL1, TEL2, TEL3, SMSSTS_YN, EMAIL1, EMAIL2, EMAILSTS_YN, DEPTNO, POSTCODE, ROADADDRESS, JIBUNADDRESS, DETAILADDRESS, MEMBER_BIRTH_Y, MEMBER_BIRTH_M, MEMBER_BIRTH_D, MEMBER_BIRTH_GN, RRN_FRONT, RRN_BACK) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			
 		String tel1 = phone_number.split("-")[0];
 		String tel2 = phone_number.split("-")[1];
@@ -97,16 +100,17 @@ String emailsts = request.getParameter("emailsts");
 		pstmt.setString(9, email1);
 		pstmt.setString(10, email2);
 		pstmt.setString(11, emailsts);
-		pstmt.setString(12, postcode);
-		pstmt.setString(13, roadAddr);
-		pstmt.setString(14, jibunAddr);
-		pstmt.setString(15, detailAddr);
-		pstmt.setString(16, birth_y);
-		pstmt.setString(17, birth_m);
-		pstmt.setString(18, birth_d);
-		pstmt.setString(19, calendar);
-		pstmt.setString(20, rrn1);
-		pstmt.setString(21, rrn2);
+		pstmt.setInt(12, deptno);
+		pstmt.setString(13, postcode);
+		pstmt.setString(14, roadAddr);
+		pstmt.setString(15, jibunAddr);
+		pstmt.setString(16, detailAddr);
+		pstmt.setString(17, birth_y);
+		pstmt.setString(18, birth_m);
+		pstmt.setString(19, birth_d);
+		pstmt.setString(20, calendar);
+		pstmt.setString(21, rrn1);
+		pstmt.setString(22, rrn2);
 		%>
 		console.log("<%=pstmt %>");
 		<%

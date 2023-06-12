@@ -249,7 +249,7 @@ if(conn!=null) {
 
 ResultSet rs = null;
 PreparedStatement pstmt = null;
-String sql = "SELECT * FROM T_SHOPPING_MEMBER WHERE MEMBER_ID = ? AND MEMBER_PW = ?";
+String sql = "SELECT * FROM T_SHOPPING_MEMBER ts left join t_dept td on ts.deptno = td.deptno WHERE MEMBER_ID = ? AND MEMBER_PW = ?";
 pstmt = conn.prepareStatement(sql);
 pstmt.setString(1, id);
 pstmt.setString(2, password);
@@ -277,6 +277,7 @@ String MEMBER_BIRTH_M = "";
 String MEMBER_BIRTH_D = "";
 String MEMBER_BIRTH_GN = "";
 String RRN_BACK = "";
+String DEPTNO = "";
 if(rs.next()) {
 	MEMBER_ID = rs.getString("MEMBER_ID");
 	MEMBER_PW = rs.getString("MEMBER_PW");
@@ -298,12 +299,13 @@ if(rs.next()) {
 	MEMBER_BIRTH_D = rs.getString("MEMBER_BIRTH_D");
 	MEMBER_BIRTH_GN = rs.getString("MEMBER_BIRTH_GN");
 	RRN_BACK = rs.getString("RRN_BACK");
+	DEPTNO = rs.getString("DEPTNO");
 	%>
 	$(document).ready(function() {
 		setDateSelectBox();
 		var options = $('#phone1').find('option').map(function() {
 	      return $(this).val();
-	}).get();
+		}).get();
 		var birth_y = $('#year').find('option').map(function() {
 		      return $(this).val();
 		}).get();
@@ -333,9 +335,6 @@ if(rs.next()) {
 		$("#emailsts").prop("disabled", true);
 	}
 	
-	
-	
-	
 	if("<%=MEMBER_GENDER%>"=="male") {
 		$("#male").prop("checked", true);
 		$("#female").prop("disabled", true);
@@ -354,6 +353,8 @@ if(rs.next()) {
 		$("#sola").prop("disabled", true);
 	}
 	
+	$('#deptno').val("<%=DEPTNO%>").prop("selected", true);
+	$("#selected-deptno").val($("#deptno option:selected").text());
 	
 	$('#year').val("<%=MEMBER_BIRTH_Y%>").prop("selected", true);
 	console.log(birth_y);
@@ -366,11 +367,13 @@ if(rs.next()) {
 	setDay(day);
 	$('#loginform').on('submit', function() {
 		$("#phone1").prop("disabled", false);
+		$("#mail3").prop("disabled", false);
 		$("#smssts").prop("disabled", false);
 		$("#emailsts").prop("disabled", false);
 	    $('#year').prop('disabled', false);
 	    $('#month').prop('disabled', false);
 	    $('#day').prop('disabled', false);
+	    $('#deptno').prop('disabled', false);
 	});
 	});
 	<% 
@@ -418,7 +421,7 @@ if(rs.next()) {
 					<span>-</span>
 					<input type="text" name="phone2" value="<%=TEL2%>" maxlength="4" style="width:80px;" readonly>
 					<input type="text" name="phone3" value="<%=TEL3%>" maxlength="4" style="width:80px;" readonly>
-					<br/>
+					<br>
 					<input id = "smssts" type="checkbox" name="smssts" value="Y" readonly>
 					<input id = "hidden-smssts" type="hidden" name="smssts" value="N">
 					<label for= "smssts"><span>쇼핑몰에서 발송하는 SMS 소식을 수신합니다.</span></label> 
@@ -430,17 +433,30 @@ if(rs.next()) {
 					<input type="text" name="mail1" value="<%=EMAIL1%>" style="width:100px; text-align:right;" readonly>
 					<span>@</span>
 					<input type="text" name="mail2" value="<%=EMAIL2%>" style="width:100px;" readonly>
-					<select name="mail3" onchange="setMail(this)">
+					<select id="mail3" name="mail3" onchange="setMail(this)" disabled>
 						<option>직접 입력</option>
 						<option>naver.com</option>
 						<option>gmail.com</option>
 						<option>nate.com</option>
 						<option>daum.net</option>
 					</select>
-					<br/>
+					<br>
 					<input id = "emailsts" type="checkbox" name="emailsts" value="Y" readonly>
 					<input id = "hidden-emailsts" type="hidden" name="emailsts" value="N">
 					<label for= "emailsts"><span>쇼핑몰에서 발송하는 e-mail을 수신합니다.</span></label> 
+					</td>
+			</tr>
+			<tr>
+				<td class="title">부서</td>
+				<td>
+					<select name="deptno" id="deptno" disabled>
+						<option value="10">ACCOUNTING</option>
+						<option value="20">RESEARCH</option>
+						<option value="30">SALES</option>
+						<option value="40">OPERATIONS</option>
+					</select>
+					부서:
+					<input type="text" name="dname" id="selected-deptno" readonly>
 					</td>
 			</tr>
 			<tr>
@@ -476,13 +492,12 @@ if(rs.next()) {
 			<tr>
 				<td class="title">주소</td>
 				<td>
-				<input id="postcode" type="text" name="postcode" value="<%=POSTCODE %>" readonly>
-					<input type="button" name="set-postcode" onclick="set_postcode()" value="우편번호 찾기"><br/>
-					<label for="roadAddr">도로명 주소:</label><br/>
-					<input id="roadAddr" type="text" name="roadAddr" value="<%=ROADADDRESS %>" style="width:300px;" readonly><br/>
-					<label for="jibunAddr">지번 주소:</label><br/>
-					<input id="jibunAddr" type="text" name="jibunAddr" value="<%=JIBUNADDRESS %>" style="width:300px;" readonly><br/>
-					<label for="detailAddr">상세 주소:</label><br/>
+				<input id="postcode" type="text" name="postcode" value="<%=POSTCODE %>" readonly><br>
+					<label for="roadAddr">도로명 주소:</label><br>
+					<input id="roadAddr" type="text" name="roadAddr" value="<%=ROADADDRESS %>" style="width:300px;" readonly><br>
+					<label for="jibunAddr">지번 주소:</label><br>
+					<input id="jibunAddr" type="text" name="jibunAddr" value="<%=JIBUNADDRESS %>" style="width:300px;" readonly><br>
+					<label for="detailAddr">상세 주소:</label><br>
 					<input id="detailAddr" type="text" name="detailAddr" value="<%=DETAILADDRESS %>" value="" readonly>
 				</td>
 			</tr>
