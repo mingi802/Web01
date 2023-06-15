@@ -278,6 +278,7 @@ String MEMBER_BIRTH_D = "";
 String MEMBER_BIRTH_GN = "";
 String RRN_BACK = "";
 String DEPTNO = "";
+String DNAME = "";
 if(rs.next()) {
 	MEMBER_ID = rs.getString("MEMBER_ID");
 	MEMBER_PW = rs.getString("MEMBER_PW");
@@ -300,6 +301,7 @@ if(rs.next()) {
 	MEMBER_BIRTH_GN = rs.getString("MEMBER_BIRTH_GN");
 	RRN_BACK = rs.getString("RRN_BACK");
 	DEPTNO = rs.getString("DEPTNO");
+	DNAME = rs.getString("DNAME");
 	%>
 	$(document).ready(function() {
 		setDateSelectBox();
@@ -450,10 +452,7 @@ if(rs.next()) {
 				<td class="title">부서</td>
 				<td>
 					<select name="deptno" id="deptno" disabled>
-						<option value="10">ACCOUNTING</option>
-						<option value="20">RESEARCH</option>
-						<option value="30">SALES</option>
-						<option value="40">OPERATIONS</option>
+						<option value="<%=DEPTNO %>"><%=DNAME %></option>
 					</select>
 					부서:
 					<input type="text" name="dname" id="selected-deptno" readonly>

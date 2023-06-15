@@ -59,10 +59,10 @@
 			</tr>
 		</table>
 		<br/>
-		<form id="show-users-form" name="show-users-form" action="../admin/show_users.jsp" method="GET" accept-charset="UTF-8">
+		<form id="show-users-form" name="show-users-form" action="../admin/admin_page.jsp" method="GET" accept-charset="UTF-8">
 			<table>
 			<tr>
-				<th colspan="2">회원 목록 조회</th>
+				<th colspan="2">관리자 페이지</th>
 			</tr>
 			<tr>
 				<td class="title">관리자 아이디</td>

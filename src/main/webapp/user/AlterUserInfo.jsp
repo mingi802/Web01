@@ -138,6 +138,15 @@ if(rs.next()) {
 	});
 	<% 
 }
+
+rs = null;
+pstmt = null;
+sql = "SELECT * FROM T_DEPT";
+pstmt = conn.prepareStatement(sql);
+%>
+console.log("<%=pstmt %>");
+<%
+rs = pstmt.executeQuery();
 %>
 </script>
 <script>
@@ -435,10 +444,16 @@ function setMail(mail3) {
 				<td class="alter-title">부서</td>
 				<td>
 					<select name="deptno" id="deptno">
-						<option value="10">ACCOUNTING</option>
-						<option value="20">RESEARCH</option>
-						<option value="30">SALES</option>
-						<option value="40">OPERATIONS</option>
+					<option value="0" selected disabled>부서 선택</option>
+					<%
+						while (rs.next()) {
+							String dname = rs.getString("dname");
+							String deptno = rs.getString("deptno");
+					%>
+							<option value="<%=deptno%>"><%=dname%></option>
+					<%
+						}
+					%>
 					</select>
 					선택 부서:
 					<input type="text" name="dname" id="selected-deptno" readonly>
