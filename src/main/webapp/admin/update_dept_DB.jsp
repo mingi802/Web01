@@ -41,10 +41,12 @@ $(document).ready(function(){
 	%>
 	console.log("<%=pstmt %>");
 	<%
-	int rows = pstmt.executeUpdate();	
+	int rows = pstmt.executeUpdate(); 
+
 	if(rows == 0) {
 	%>	
 		console.log("수정 실패");
+		alert("해당 부서에 재직 중인 직원이 있는 경우 부서 번호는 수정하실 수 없습니다.");
 	<%	
 	}
 	else {
@@ -56,7 +58,7 @@ $(document).ready(function(){
 	}
 	conn.close();
 	%>
-	window.location.href="./edit_dept.jsp";
+	window.location.replace("./edit_dept.jsp");
 });
 
 </script>

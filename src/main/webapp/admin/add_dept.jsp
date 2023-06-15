@@ -80,10 +80,15 @@ $(document).ready(function() {
 			 $( '#test' ).text("");
 		 }
 	});
+	
+	$('#go-back').on('click', function() {
+		window.history.back();
+	});
 });
 </script>
 </head>
 <body>
+<input type="button" id="go-back" value="돌아가기">
 <form name="loginform" action="./add_dept_DB.jsp" method="GET" accept-charset="UTF-8">
 		<table class="form-table">
 			<tr> 

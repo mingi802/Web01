@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.Connection"%>
-<%@page import="java.sql.PreparedStatement"%>  
+<%@page import="java.sql.PreparedStatement"%> 
+<%@page import="java.sql.SQLIntegrityConstraintViolationException"%>   
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,13 +28,19 @@ if(conn!=null) {
 
 PreparedStatement pstmt = null;
 String sql = "DELETE FROM t_dept WHERE deptno = ?";
+
 pstmt = conn.prepareStatement(sql);
 pstmt.setInt(1, deptno);
-
 %>
 console.log("<%=pstmt %>");
 <%
-int rows = pstmt.executeUpdate();	
+int rows = 0;
+try {
+	rows = pstmt.executeUpdate();
+} catch (SQLIntegrityConstraintViolationException e) {	//이 행을 참조 중인 자식 레코드가 있을 경우 해당 예외를 리턴한다. deptno를 외래 키로 지정해서 발생하는 예외다.
+	%>alert("해당 부서에 재직 중인 직원이 있는 경우 삭제하실 수 없습니다.");<%
+}
+	
 if(rows == 0) {
 %>	
 	console.log("삭제 실패");

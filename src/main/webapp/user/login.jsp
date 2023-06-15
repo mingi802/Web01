@@ -13,16 +13,19 @@
 			alert("회원가입 페이지로 이동합니다.");
 			window.location.href = "./signUp.jsp";
 		});		
+		$('#go-to-admin_page').click(function() {
+			window.location.replace("../admin/admin_page.jsp");
+		});
 		$('#admin-id, #admin-pw').keyup( function(){
 			 var id = $( '#admin-id' ).val();
 		     var pw = $( '#admin-pw' ).val();
 			 if(id == "root" && pw == "1234") {
-				 $('#show-users').prop("disabled", false);
+				 $('#go-to-admin_page').prop("disabled", false);
 				 $('#admin-id').prop("disabled", true);
 				 $('#admin-pw').prop("disabled", true);
 			 }
 		 });
-		$('#show-users-form').on('submit', function() {
+		$('#go-to-admin_page').on('click', function() {
 			 $('#admin-id').prop("disabled", false);
 			 $('#admin-pw').prop("disabled", false);
 		});
@@ -59,7 +62,6 @@
 			</tr>
 		</table>
 		<br/>
-		<form id="show-users-form" name="show-users-form" action="../admin/admin_page.jsp" method="GET" accept-charset="UTF-8">
 			<table>
 			<tr>
 				<th colspan="2">관리자 페이지</th>
@@ -73,10 +75,8 @@
 				<td><input type="password" name="admin-password" id="admin-pw" placeholder="admin-password"></td>
 			</tr>
 			<tr>
-				<td colspan="2"><input style="float:right;" type="submit" id="show-users" value="조회" disabled></td>
+				<td colspan="2"><input style="float:right;" type="submit" id="go-to-admin_page" value="로그인" disabled></td>
 			</tr>
-		</table>
-		</form>
-		
+		</table>	
 </body>
 </html>

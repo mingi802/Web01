@@ -13,11 +13,19 @@
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
 function deleteDept(deptno) {
-	window.location.replace("./delete_dept.jsp?deptno="+deptno);
+	var r = confirm("정말로 삭제하시겠습니까?");
+	var txt = "";
+	if (r == true) {
+	  txt = "You pressed OK!";
+	  window.location.href="./delete_dept.jsp?deptno="+deptno;
+	} else {
+	  txt = "You pressed Cancel!";
+	}
+	
 }
 
 function updateDept(deptno) {
-	window.location.replace("./update_dept.jsp?deptno="+deptno);
+	window.location.href="./update_dept.jsp?deptno="+deptno;
 }
 
 $(document).ready(function() {
@@ -46,6 +54,9 @@ $(document).ready(function() {
 	$("#go-to-add_dept").click(function () {
 		window.location.href="./add_dept.jsp?admin-id=root&admin-password=1234";
 	});
+	$("#go-to-admin_page").click(function () {
+		window.location.href="./admin_page.jsp";
+	});
 });
 
 
@@ -53,6 +64,7 @@ $(document).ready(function() {
 
 <body>
 <h1>부서 편집 페이지</h1>
+<input type="button" id="go-to-admin_page" value="관리자 페이지로">
 <input type="button" id="go-to-add_dept" value="부서 추가">
 <table border="1" style="border-collapse: collapse;">
 	<tr>
