@@ -14,7 +14,7 @@
 			window.location.href = "./signUp.jsp";
 		});		
 		$('#go-to-admin_page').click(function() {
-			window.location.replace("../admin/admin_page.jsp");
+			window.location.replace("../show_member");
 		});
 		$('#admin-id, #admin-pw').keyup( function(){
 			 var id = $( '#admin-id' ).val();
