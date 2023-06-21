@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ page session="false"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +15,7 @@
 			window.location.href = "./signUp.jsp";
 		});		
 		$('#go-to-admin_page').click(function() {
-			window.location.replace("../show_member");
+			window.location.replace("../admin/admin_page.jsp");
 		});
 		$('#admin-id, #admin-pw').keyup( function(){
 			 var id = $( '#admin-id' ).val();
@@ -32,7 +33,7 @@
 	});
 </script>
 <body>
-		<form name="loginform" action="./user_page.jsp" method="GET" accept-charset="UTF-8">
+		<form name="loginform" action="../login" method="GET" accept-charset="UTF-8">
 			<table class="login-table">
 				<tr> 
 					<th class="title" colspan="2">로그인</th>

@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import java.util.ArrayList;
@@ -90,6 +91,7 @@ public class MemberDAO {
 			connDB();
 			String sql = "SELECT * FROM T_SHOPPING_MEMBER TS LEFT JOIN T_DEPT TD ON TS.DEPTNO = TD.DEPTNO WHERE";
 			for(int idx = 0; idx < slist.size(); idx++) {
+				System.out.println(idx);
 				SearchList sl = slist.get(idx);
 				String and_or = sl.getAnd_or();
 				String search_opt = sl.getSearch_opt();
@@ -108,13 +110,12 @@ public class MemberDAO {
 					sql += "CONCAT("+search_opt.split(",")[0]+","+search_opt.split(",")[1]+","+search_opt.split(",")[2]+")"+" = "+"'"+search_text+"'";
 				}
 				else {
-					sql += search_opt+" = '"+search_text+"'";
+					sql += search_opt+" = '"+search_text+"' ";
 				}
 			}
 			System.out.println(sql);
 			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next()) {
-				System.out.println("ÀÌÀ×µð¹ö±ë");
 				String MEMBER_ID = rs.getString("MEMBER_ID");
 				String MEMBER_PW = rs.getString("MEMBER_PW");
 				String MEMBER_NAME = rs.getString("MEMBER_NAME");
@@ -204,8 +205,82 @@ public class MemberDAO {
 			if(rows == 0) {
 				System.out.println("»èÁ¦ ½ÇÆÐ");
 			}
+			pstmt.close();
+			con.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	} 
+	
+	public List<MemberVO> MemberInfo(String id, String pw) {
+		List<MemberVO> list = new ArrayList<MemberVO>();
+		try {
+			connDB();
+			String sql = "SELECT * FROM T_SHOPPING_MEMBER TS LEFT JOIN T_DEPT TD ON TS.DEPTNO = TD.DEPTNO WHERE MEMBER_ID = ? AND MEMBER_PW = ?";
+			System.out.println(id+" "+pw);
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, pw);
+			System.out.println(sql);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				String MEMBER_ID = rs.getString("MEMBER_ID");
+				String MEMBER_PW = rs.getString("MEMBER_PW");
+				String MEMBER_NAME = rs.getString("MEMBER_NAME");
+				String MEMBER_GENDER = rs.getString("MEMBER_GENDER");
+				String TEL1 = rs.getString("TEL1");
+				String TEL2 = rs.getString("TEL2");
+				String TEL3 = rs.getString("TEL3");
+				String SMSSTS_YN = rs.getString("SMSSTS_YN");
+				String EMAIL1 = rs.getString("EMAIL1");
+				String EMAIL2 = rs.getString("EMAIL2");
+				String EMAILSTS_YN = rs.getString("EMAILSTS_YN");
+				String POSTCODE = rs.getString("POSTCODE");
+				String ROADADDRESS = rs.getString("ROADADDRESS");
+				String JIBUNADDRESS = rs.getString("JIBUNADDRESS");
+				String DETAILADDRESS = rs.getString("DETAILADDRESS");	
+				String MEMBER_BIRTH_Y = rs.getString("MEMBER_BIRTH_Y");
+				String MEMBER_BIRTH_M = rs.getString("MEMBER_BIRTH_M");
+				String MEMBER_BIRTH_D = rs.getString("MEMBER_BIRTH_D");
+				String MEMBER_BIRTH_GN = rs.getString("MEMBER_BIRTH_GN");
+				String RRN_FRONT = rs.getString("RRN_FRONT");
+				String RRN_BACK = rs.getString("RRN_BACK");
+				Date JOINDATE = rs.getDate("JOINDATE");
+				int DEPTNO = rs.getInt("DEPTNO");
+				String DNAME = rs.getString("DNAME");
+				MemberVO vo = new MemberVO();
+				vo.setMEMBER_ID(MEMBER_ID);
+				vo.setMEMBER_PW(MEMBER_PW);
+				vo.setMEMBER_NAME(MEMBER_NAME);
+				vo.setMEMBER_GENDER(MEMBER_GENDER);
+				vo.setTEL1(TEL1);
+				vo.setTEL2(TEL2);
+				vo.setTEL3(TEL3);
+				vo.setSMSSTS_YN(SMSSTS_YN);
+				vo.setEMAIL1(EMAIL1);
+				vo.setEMAIL2(EMAIL2);
+				vo.setEMAILSTS_YN(EMAILSTS_YN);
+				vo.setPOSTCODE(POSTCODE);
+				vo.setROADADDRESS(ROADADDRESS);
+				vo.setJIBUNADDRESS(JIBUNADDRESS);
+				vo.setDETAILADDRESS(DETAILADDRESS);
+				vo.setMEMBER_BIRTH_Y(MEMBER_BIRTH_Y);
+				vo.setMEMBER_BIRTH_M(MEMBER_BIRTH_M);
+				vo.setMEMBER_BIRTH_D(MEMBER_BIRTH_D);
+				vo.setMEMBER_BIRTH_GN(MEMBER_BIRTH_GN);
+				vo.setJOINDATE(JOINDATE);
+				vo.setDEPTNO(DEPTNO);
+				vo.setDNAME(DNAME);
+				vo.setRRN_FRONT(RRN_FRONT);
+				vo.setRRN_BACK(RRN_BACK);
+				list.add(vo);
+			}
+			rs.close();
+			pstmt.close();
+			con.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 }

@@ -10,7 +10,7 @@
 <script>
 $(document).ready(function() {
 	$("#go-to-show_users").click(function () {
-		window.location.href="./show_users.jsp?admin-id=root&admin-password=1234";
+		window.location.href="../show_member";
 	});
 	$("#go-to-edit_dept").click(function () {
 		window.location.href="./edit_dept.jsp?admin-id=root&admin-password=1234";

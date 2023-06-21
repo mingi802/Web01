@@ -21,8 +21,6 @@ public class MemberServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		response.setContentType("text/html;charset=utf-8");
 		MemberDAO dao = new MemberDAO();
 		String command = request.getParameter("command");
 		if(command == null || command.isEmpty()) {

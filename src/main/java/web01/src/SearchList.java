@@ -1,7 +1,7 @@
 package web01.src;
 
 public class SearchList {
-	private String and_or;
+	private String and_or = ""; //기본값 공백
 	private String search_opt;
 	private String search_text;
 	/**
